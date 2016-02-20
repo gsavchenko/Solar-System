@@ -6,9 +6,9 @@ Source file	name:       game.ts
 Author’s name:	        George Savcheko
 Last modified by:       George Savchenko
 Date last modified:     2016-02-10
-Program	description:    Using the Three.js JavaScript Library and TypeScript, create a web application that displays a fictitious solar system.	The	
-                        solar system should have a central Sun object with at least 5 planets that orbit around it. One of the planets must have a 
-                        moon that orbits around it. Include controls that allows the user to zoom the camera out to see the solar system and zoom in 
+Program	description:    Using the Three.js JavaScript Library and TypeScript, create a web application that displays a fictitious solar system.	The
+                        solar system should have a central Sun object with at least 5 planets that orbit around it. One of the planets must have a
+                        moon that orbits around it. Include controls that allows the user to zoom the camera out to see the solar system and zoom in
                         to view the planet with a moon.
 Revision history:       Initial Commit - File Setup
 
@@ -24,6 +24,7 @@ var SphereGeometry = THREE.SphereGeometry;
 var Geometry = THREE.Geometry;
 var AxisHelper = THREE.AxisHelper;
 var LambertMaterial = THREE.MeshLambertMaterial;
+var MeshPhongMaterial = THREE.MeshPhongMaterial;
 var MeshBasicMaterial = THREE.MeshBasicMaterial;
 var Material = THREE.Material;
 var Mesh = THREE.Mesh;
@@ -47,6 +48,9 @@ var cube;
 var head;
 var cubeMaterial;
 var cubeGeometry;
+var sphereMaterial;
+var sphereGeometry;
+var sun;
 var leftLeg;
 var rightLeg;
 var lowerTorso;
@@ -60,6 +64,7 @@ var plane;
 var sphere;
 var ambientLight;
 var spotLight;
+var pointLight;
 var control;
 var gui;
 var stats;
@@ -80,97 +85,26 @@ function init() {
     plane.rotation.x = -0.5 * Math.PI;
     scene.add(plane);
     console.log("Added Plane Primitive to scene...");
+    //Add point light
+    pointLight = new PointLight(0xffffff, 1000, 0);
+    pointLight.position.set(0, 15, 0);
+    pointLight.castShadow = true;
+    scene.add(pointLight);
     // Add an AmbientLight to the scene
     ambientLight = new AmbientLight(0x090909);
     scene.add(ambientLight);
     console.log("Added an Ambient Light to Scene");
     // Add a SpotLight to the scene
-    spotLight = new SpotLight(0xffffff);
-    spotLight.position.set(-40, 60, 10);
-    spotLight.castShadow = true;
-    scene.add(spotLight);
-    console.log("Added a SpotLight Light to Scene");
-    // Make humanoid character composed of cubes of various sizes
-    // Body (all other parts are attached to this)
-    cubeGeometry = new CubeGeometry(5, 6, 1); // create cube      
-    cubeMaterial = new LambertMaterial({ color: 0xff4c4c }); // set material
-    body = new Mesh(cubeGeometry, cubeMaterial); // set mesh
-    // modify properties
-    body.castShadow = true;
-    body.receiveShadow = true;
-    body.position.y = 14;
-    // Head
-    cubeGeometry = new CubeGeometry(3, 3, 2);
-    cubeMaterial = new LambertMaterial({ color: 0xfae7d0 });
-    head = new Mesh(cubeGeometry, cubeMaterial);
-    head.castShadow = true;
-    head.receiveShadow = true;
-    head.position.y = 4.5;
-    body.add(head); // Add to body
-    // Left arm
-    cubeGeometry = new CubeGeometry(6, 1, 1);
-    cubeMaterial = new LambertMaterial({ color: 0xff4c4c });
-    leftArm = new Mesh(cubeGeometry, cubeMaterial);
-    leftArm.castShadow = true;
-    leftArm.receiveShadow = true;
-    leftArm.position.x = 5.5;
-    leftArm.position.y = 2;
-    body.add(leftArm);
-    // Right arm
-    cubeGeometry = new CubeGeometry(6, 1, 1);
-    cubeMaterial = new LambertMaterial({ color: 0xff4c4c });
-    rightArm = new Mesh(cubeGeometry, cubeMaterial);
-    rightArm.castShadow = true;
-    rightArm.receiveShadow = true;
-    rightArm.position.x = -5.5;
-    rightArm.position.y = 2;
-    body.add(rightArm);
-    // Lower torso
-    cubeGeometry = new CubeGeometry(5, 1, 1);
-    cubeMaterial = new LambertMaterial({ color: 0x113572 });
-    lowerTorso = new Mesh(cubeGeometry, cubeMaterial);
-    lowerTorso.castShadow = true;
-    lowerTorso.receiveShadow = true;
-    lowerTorso.position.y = -3.5;
-    body.add(lowerTorso);
-    // Left leg
-    cubeGeometry = new CubeGeometry(1, 8.5, 1);
-    cubeMaterial = new LambertMaterial({ color: 0x113572 });
-    leftLeg = new Mesh(cubeGeometry, cubeMaterial);
-    leftLeg.castShadow = true;
-    leftLeg.receiveShadow = true;
-    leftLeg.position.x = 2;
-    leftLeg.position.y = -7.5;
-    body.add(leftLeg);
-    // Right leg
-    cubeGeometry = new CubeGeometry(1, 8.5, 1);
-    cubeMaterial = new LambertMaterial({ color: 0x113572 });
-    rightLeg = new Mesh(cubeGeometry, cubeMaterial);
-    rightLeg.castShadow = true;
-    rightLeg.receiveShadow = true;
-    rightLeg.position.x = -2;
-    rightLeg.position.y = -7.5;
-    body.add(rightLeg);
-    // Left foot
-    cubeGeometry = new CubeGeometry(1, 1, 2);
-    leftFoot = new Mesh(cubeGeometry, texture);
-    leftFoot.castShadow = true;
-    leftFoot.receiveShadow = true;
-    leftFoot.position.x = 2;
-    leftFoot.position.z = 0.5;
-    leftFoot.position.y = -12;
-    body.add(leftFoot);
-    // Right foot
-    cubeGeometry = new CubeGeometry(1, 1, 2);
-    rightFoot = new Mesh(cubeGeometry, texture);
-    rightFoot.castShadow = true;
-    rightFoot.receiveShadow = true;
-    rightFoot.position.x = -2;
-    rightFoot.position.z = 0.5;
-    rightFoot.position.y = -12;
-    body.add(rightFoot);
-    // Add Body to scene
-    scene.add(body);
+    // spotLight = new SpotLight(0xffffff);
+    // spotLight.position.set(-40, 60, 10);
+    // spotLight.castShadow = true;
+    // scene.add(spotLight);
+    // console.log("Added a SpotLight Light to Scene");
+    //Sun
+    sphereGeometry = new SphereGeometry(10, 20, 20);
+    sphereMaterial = new LambertMaterial({ color: 0xfd8813 });
+    sun = new Mesh(sphereGeometry, sphereMaterial);
+    scene.add(sun);
     // Add controls using DAT.GUI to allow user to rotate cube man
     gui = new GUI();
     control = new Control(0.00);
@@ -208,16 +142,9 @@ function addStatsObject() {
 function gameLoop() {
     stats.update();
     //set body mesh to rotate based on control panel changes
-    body.rotation.x += control.rotationSpeedx;
-    body.rotation.y += control.rotationSpeedy;
-    body.rotation.z += control.rotationSpeedz;
-    //set body material colours to different themes
-    body.material.color = control.shirtColour;
-    leftArm.material.color = control.shirtColour;
-    rightArm.material.color = control.shirtColour;
-    lowerTorso.material.color = control.pantsColour;
-    rightLeg.material.color = control.pantsColour;
-    leftLeg.material.color = control.pantsColour;
+    //  body.rotation.x += control.rotationSpeedx;
+    // body.rotation.y += control.rotationSpeedy;
+    // body.rotation.z += control.rotationSpeedz;
     // render using requestAnimationFrame
     requestAnimationFrame(gameLoop);
     // render the scene

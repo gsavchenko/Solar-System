@@ -1,15 +1,14 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 /*
-    Source file	name:       control.ts
-    Author’s name:	        George Savcheko
-    Last modified by:       George Savchenko
-    Date last modified:     2016-02-05
-    Program	description:    Using	the	Three.js	JavaScript	Library	and	TypeScript,	create	a	web	application	that	displays	a	3D
-                            Humanoid	Character.	The	Character	will	be	composed	of	primitive	Cube	Meshes	arranged	in	a
-                            humanoid	shape.	On-Screen	Controls  will	allow	the	user	to	rotate	the	character	in	any	direction.
-                            The	user	will	be	able	to	use	the	controls	to	change	the	colour	properties	of	Cube	Materials
-                            (as	a	group).
-    Revision history:       final commit - comment code
+Source file	name:       control.ts
+Author’s name:	        George Savcheko
+Last modified by:       George Savchenko
+Date last modified:     2016-02-10
+Program	description:    Using the Three.js JavaScript Library and TypeScript, create a web application that displays a fictitious solar system.	The
+                        solar system should have a central Sun object with at least 5 planets that orbit around it. One of the planets must have a
+                        moon that orbits around it. Include controls that allows the user to zoom the camera out to see the solar system and zoom in
+                        to view the planet with a moon.
+Revision history:       Initial Commit - File Setup
 */
 var objects;
 (function (objects) {
