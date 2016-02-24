@@ -5,12 +5,12 @@ MAIN GAME FILE
 Source file	name:       game.ts
 Author’s name:	        George Savcheko
 Last modified by:       George Savchenko
-Date last modified:     2016-02-10
+Date last modified:     2016-02-24
 Program	description:    Using the Three.js JavaScript Library and TypeScript, create a web application that displays a fictitious solar system.	The
                         solar system should have a central Sun object with at least 5 planets that orbit around it. One of the planets must have a
                         moon that orbits around it. Include controls that allows the user to zoom the camera out to see the solar system and zoom in
                         to view the planet with a moon.
-Revision history:       Basic planet rotation added
+Revision history:       Added zoom functionality, made universe darker
 
 THREEJS Aliases
 */
@@ -101,7 +101,7 @@ function init() {
     // console.log("Added Plane Primitive to scene...");
     //Add point light
     pointLight = new PointLight(0xffffff, 1, 0);
-    pointLight.position.set(0, 15, 0);
+    pointLight.position.set(0, 0, 0);
     pointLight.castShadow = true;
     scene.add(pointLight);
     // Add an AmbientLight to the scene
@@ -109,15 +109,21 @@ function init() {
     scene.add(ambientLight);
     console.log("Added an Ambient Light to Scene");
     // Add a SpotLight to the scene
-    // spotLight = new SpotLight(0xffffff);
-    // spotLight.position.set(-40, 60, 10);
+    spotLight = new SpotLight(0xffffff);
+    spotLight.position.set(0, 60, 0);
     // spotLight.castShadow = true;
-    // scene.add(spotLight);
-    // console.log("Added a SpotLight Light to Scene");
+    scene.add(spotLight);
+    console.log("Added a SpotLight Light to Scene");
+    // Add a SpotLight to the scene
+    spotLight = new SpotLight(0xffffff);
+    spotLight.position.set(-85, -60, 85);
+    // spotLight.castShadow = true;
+    scene.add(spotLight);
+    console.log("Added a SpotLight Light to Scene");
     addPlanets();
     // Add controls using DAT.GUI to allow user to rotate cube man
     gui = new GUI();
-    control = new Control(0.00);
+    control = new Control();
     addControl(control);
     // Add framerate stats
     addStatsObject();
@@ -127,6 +133,15 @@ function init() {
     window.addEventListener('resize', onResize, false);
 }
 function addPlanets() {
+    //Sun Texture
+    // sun = new THREE.Mesh(
+    //    new SphereGeometry(10, 20, 20),
+    //    new THREE.MeshPhongMaterial({
+    //        map: THREE.ImageUtils.loadTexture('Content/Textures/sun.png'),
+    //       shininess: 100,
+    //   })
+    // );
+    // scene.add(sun);
     //Sun
     sphereGeometry = new SphereGeometry(10, 20, 20);
     sphereMaterial = new LambertMaterial({ color: 0xfd8813 });
@@ -137,6 +152,7 @@ function addPlanets() {
     sphereMaterial = new LambertMaterial({ color: 0x0000a0 });
     earth = new Mesh(sphereGeometry, sphereMaterial);
     scene.add(earth);
+    scene.updateMatrixWorld(true);
     pivot1.rotation.z = 0;
     pivot2.rotation.z = 2 * Math.PI / 3;
     pivot3.rotation.z = 4 * Math.PI / 3;
@@ -234,10 +250,7 @@ function onResize() {
 }
 // Add controls to control object to allow user to rotate cube man on any axis
 function addControl(controlObject) {
-    gui.add(controlObject, 'rotationSpeedx', -0.5, 0.5); // Rotation on x
-    gui.add(controlObject, 'rotationSpeedy', -0.5, 0.5); // Rotation on y
-    gui.add(controlObject, 'rotationSpeedz', -0.5, 0.5); // Rotation on z
-    gui.add(controlObject, 'changeColors'); // Change default colours
+    gui.add(controlObject, 'zoomInOut'); // Change default colours
 }
 // Add stats window for scene info
 function addStatsObject() {
@@ -261,6 +274,10 @@ function gameLoop() {
     pivot8.rotation.y += 0.015;
     pivot9.rotation.y += 0.001;
     pivot10.rotation.y += 0.03;
+    camera.position.x = control.positionX;
+    camera.position.y = control.positionY;
+    camera.position.z = control.positionZ;
+    camera.lookAt(control.face);
     //set body mesh to rotate based on control panel changes
     //  body.rotation.x += control.rotationSpeedx;
     // body.rotation.y += control.rotationSpeedy;
@@ -273,7 +290,7 @@ function gameLoop() {
 // Setup default renderer
 function setupRenderer() {
     renderer = new Renderer();
-    renderer.setClearColor(0xEEEEEE, 1.0);
+    renderer.setClearColor(0x090909, 1.0);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
     console.log("Finished setting up Renderer...");
@@ -281,9 +298,9 @@ function setupRenderer() {
 // Setup main (perspective) camera for the scene
 function setupCamera() {
     camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.x = -125;
-    camera.position.y = 135;
-    camera.position.z = 125;
+    // camera.position.x = -125;
+    //camera.position.y = 135;
+    //camera.position.z = 125;
     camera.lookAt(new Vector3(5, 0, 0));
     console.log("Finished setting up Camera...");
 }
