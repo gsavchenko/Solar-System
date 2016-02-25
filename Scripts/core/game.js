@@ -10,7 +10,7 @@ Program	description:    Using the Three.js JavaScript Library and TypeScript, cr
                         solar system should have a central Sun object with at least 5 planets that orbit around it. One of the planets must have a
                         moon that orbits around it. Include controls that allows the user to zoom the camera out to see the solar system and zoom in
                         to view the planet with a moon.
-Revision history:       Added zoom functionality, made universe darker
+Revision history:       custodial work done
 
 THREEJS Aliases
 */
