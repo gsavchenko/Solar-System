@@ -90,23 +90,23 @@ function init() {
     scene.add(pointLight);
     
     // Add an AmbientLight to the scene
-    ambientLight = new AmbientLight(0x090909);
+    ambientLight = new AmbientLight(0xffffff);
     scene.add(ambientLight);
     console.log("Added an Ambient Light to Scene");
     
     // Add a SpotLight to the scene
-    spotLight = new SpotLight(0xffffff);
-    spotLight.position.set(0, 60, 0);
+    //spotLight = new SpotLight(0xffffff);
+   // spotLight.position.set(0, 60, 0);
    // spotLight.castShadow = true;
-    scene.add(spotLight);
-    console.log("Added a SpotLight Light to Scene");
+    //scene.add(spotLight);
+    //console.log("Added a SpotLight Light to Scene");
     
     // Add a SpotLight to the scene
-    spotLight = new SpotLight(0xffffff);
-    spotLight.position.set(-85, -60, 85);
+    //spotLight = new SpotLight(0xffffff);
+    //spotLight.position.set(-85, -60, 85);
    // spotLight.castShadow = true;
-    scene.add(spotLight);
-    console.log("Added a SpotLight Light to Scene");
+    //scene.add(spotLight);
+//console.log("Added a SpotLight Light to Scene");
    
     addPlanets();
            
