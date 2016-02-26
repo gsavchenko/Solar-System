@@ -4,19 +4,21 @@
 Source file	name:       control.ts
 Author’s name:	        George Savcheko
 Last modified by:       George Savchenko
-Date last modified:     2016-02-24
+Date last modified:     2016-02-26
 Program	description:    Using the Three.js JavaScript Library and TypeScript, create a web application that displays a fictitious solar system.	The	
                         solar system should have a central Sun object with at least 5 planets that orbit around it. One of the planets must have a 
                         moon that orbits around it. Include controls that allows the user to zoom the camera out to see the solar system and zoom in 
                         to view the planet with a moon.
-Revision history:       fixed bug and made look not like vomit
+Revision history:       final commit - commented code
 */
 
 module objects {
     // CONTROL CLASS ++++++++++++++++++++++++++++++++++++++++++
     export class Control { 
         //PUBLIC INSTANCE VARIABLES +++++++++++++++++++++++++++
-        // This class is used to allow the user to modify the rotation speed and colour of the object using an on screen control panel
+        // This class is used to allow the user to zoom in and out of the a section of the scene
+        
+        // Camera positions and direction that is being 'faced'
         public positionX:number;
         public positionY:number;
         public positionZ:number;
@@ -32,7 +34,7 @@ module objects {
         
         //PUBLIC METHODS +++++++++++++++++++++++++++++++++++++++
        
-       // This method uses a random number from 1 - 3 to set the shirtColour and pantsColour to a predetermind set of colors
+       // This method sets the position and direction being faced of the camera (alternates between 2 settings controlled by zoom variable)
        public zoomInOut() : void {       
         if(!this.zoom)        {
             this.positionX = -40;
