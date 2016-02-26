@@ -11,7 +11,7 @@ Program	description:    Using the Three.js JavaScript Library and TypeScript, cr
                         solar system should have a central Sun object with at least 5 planets that orbit around it. One of the planets must have a 
                         moon that orbits around it. Include controls that allows the user to zoom the camera out to see the solar system and zoom in 
                         to view the planet with a moon.
-Revision history:       custodial work done
+Revision history:       changed ambient light colour to make sun look illuminated
 
 THREEJS Aliases
 */ 
@@ -84,7 +84,7 @@ function init() {
     console.log("Added Axis Helper to scene...");
      
     //Add point light
-    pointLight = new PointLight(0xffffff, 1, 0);
+    pointLight = new PointLight(0xffffff, 2, 0);
     pointLight.position.set(0,0,0);
     pointLight.castShadow = true;
     scene.add(pointLight);
@@ -94,20 +94,6 @@ function init() {
     scene.add(ambientLight);
     console.log("Added an Ambient Light to Scene");
     
-    // Add a SpotLight to the scene
-    //spotLight = new SpotLight(0xffffff);
-   // spotLight.position.set(0, 60, 0);
-   // spotLight.castShadow = true;
-    //scene.add(spotLight);
-    //console.log("Added a SpotLight Light to Scene");
-    
-    // Add a SpotLight to the scene
-    //spotLight = new SpotLight(0xffffff);
-    //spotLight.position.set(-85, -60, 85);
-   // spotLight.castShadow = true;
-    //scene.add(spotLight);
-//console.log("Added a SpotLight Light to Scene");
-   
     addPlanets();
            
     // Add controls using DAT.GUI to allow user to rotate cube man
